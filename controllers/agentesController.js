@@ -3,6 +3,10 @@ const agentesRepository = require('../repositories/agentesRepository');
 function validarAgente(data, isPatch = false) {
   const errors = [];
 
+  if ('id' in data) {
+    errors.push("O campo 'id' não pode ser alterado.");
+  }
+
   if (!isPatch || data.nome !== undefined) {
     if (!data.nome || typeof data.nome !== 'string') {
       errors.push("O campo 'nome' é obrigatório e deve ser uma string.");

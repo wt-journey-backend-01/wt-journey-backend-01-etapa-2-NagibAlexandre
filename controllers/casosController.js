@@ -59,8 +59,8 @@ function getAllCasos(req, res) {
   if (q) {
     const queryLower = q.toLowerCase();
     casos = casos.filter(c =>
-      c.titulo.toLowerCase().includes(queryLower) ||
-      c.descricao.toLowerCase().includes(queryLower)
+      (c.titulo && c.titulo.toLowerCase().includes(queryLower)) ||
+      (c.descricao && c.descricao.toLowerCase().includes(queryLower))
     );
   }
 
