@@ -22,6 +22,10 @@ function validarCaso(data, isPatch = false) {
     }
   }
 
+  if ('id' in data) {
+    errors.push("O campo 'id' não pode ser alterado.");
+  }
+
   if (!isPatch || data.agente_id !== undefined) {
     if (!data.agente_id || typeof data.agente_id !== 'string') {
       errors.push("O campo agente_id é obrigatório e deve ser uma string.");
@@ -99,7 +103,6 @@ function createCaso(req, res) {
 function updateCaso(req, res) {
   const { id } = req.params;
   const data = req.body;
-  delete data.id;
 
   const casoExistente = casosRepository.findCasoById(id);
   if (!casoExistente) {
@@ -126,7 +129,6 @@ function updateCaso(req, res) {
 function patchCaso(req, res) {
   const { id } = req.params;
   const data = req.body;
-  delete data.id;
 
   const casoExistente = casosRepository.findCasoById(id);
   if (!casoExistente) {

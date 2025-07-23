@@ -94,7 +94,6 @@ function createAgente(req, res) {
 function updateAgente(req, res) {
   const { id } = req.params;
   const data = req.body;
-  delete data.id;
 
   const agenteExistente = agentesRepository.findAgenteById(id);
   if (!agenteExistente) {
@@ -121,7 +120,6 @@ function updateAgente(req, res) {
 function patchAgente(req, res) {
   const { id } = req.params;
   const data = req.body;
-  delete data.id;
 
   const agenteExistente = agentesRepository.findAgenteById(id);
   if (!agenteExistente) {
