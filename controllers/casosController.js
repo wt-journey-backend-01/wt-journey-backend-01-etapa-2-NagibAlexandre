@@ -99,6 +99,7 @@ function createCaso(req, res) {
 function updateCaso(req, res) {
   const { id } = req.params;
   const data = req.body;
+  delete data.id;
 
   const casoExistente = casosRepository.findCasoById(id);
   if (!casoExistente) {
@@ -125,6 +126,7 @@ function updateCaso(req, res) {
 function patchCaso(req, res) {
   const { id } = req.params;
   const data = req.body;
+  delete data.id;
 
   const casoExistente = casosRepository.findCasoById(id);
   if (!casoExistente) {
@@ -143,8 +145,7 @@ function patchCaso(req, res) {
     });
   }
 
-  const casoAtualizado = { ...casoExistente, ...data };
-  casosRepository.updateCaso(id, casoAtualizado);
+  const casoAtualizado = casosRepository.updateCaso(id, { ...casoExistente, ...data });
 
   return res.status(200).json(casoAtualizado);
 }

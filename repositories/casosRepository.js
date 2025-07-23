@@ -47,26 +47,25 @@ function findCasoById(id) {
 }
 
 function createCaso(data) {
-
     const newCase = {
         id: uuidv4(),
         ...data
-    }
+    };
     casos.push(newCase);
-
     return newCase;
 }
 
 function updateCaso(id, data) {
     const index = casos.findIndex(caso => caso.id === id);
-    casos[index] = { ...casos[index], ...data };
-
+    if (index === -1) return null;
+    const { id: _, ...dataSemId } = data;
+    casos[index] = { ...casos[index], ...dataSemId };
     return casos[index];
 }
 
 function removeCaso(id) {
     const index = casos.findIndex(caso => caso.id === id);
-
+    if (index === -1) return false;
     casos.splice(index, 1);
     return true;
 }
@@ -77,5 +76,4 @@ module.exports = {
     createCaso,
     updateCaso,
     removeCaso
-
-}
+};

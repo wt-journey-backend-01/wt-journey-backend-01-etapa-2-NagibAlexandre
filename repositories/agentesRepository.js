@@ -31,7 +31,6 @@ const agentes = [
         dataDeIncorporacao: "2018-06-05",
         cargo: "inspetor"
     }
-
 ];
 
 function findAllAgentes() {
@@ -54,7 +53,8 @@ function createAgente(data) {
 function updateAgente(id, data) {
     const index = agentes.findIndex(agente => agente.id === id);
     if (index !== -1) {
-        agentes[index] = { ...agentes[index], ...data };
+        const { id: _, ...dataSemId } = data;
+        agentes[index] = { ...agentes[index], ...dataSemId };
         return agentes[index];
     }
     return null;

@@ -12,6 +12,12 @@ function validarAgente(data, isPatch = false) {
   if (!isPatch || data.dataDeIncorporacao !== undefined) {
     if (!data.dataDeIncorporacao || !/^\d{4}-\d{2}-\d{2}$/.test(data.dataDeIncorporacao)) {
       errors.push("Campo 'dataDeIncorporacao' deve seguir a formatação 'YYYY-MM-DD'.");
+    } else {
+      const dataIncorp = new Date(data.dataDeIncorporacao);
+      const hoje = new Date();
+      if (dataIncorp > hoje) {
+        errors.push("A data de incorporação não pode ser uma data futura.");
+      }
     }
   }
 
@@ -84,6 +90,7 @@ function createAgente(req, res) {
 function updateAgente(req, res) {
   const { id } = req.params;
   const data = req.body;
+  delete data.id;
 
   const agenteExistente = agentesRepository.findAgenteById(id);
   if (!agenteExistente) {
@@ -110,6 +117,7 @@ function updateAgente(req, res) {
 function patchAgente(req, res) {
   const { id } = req.params;
   const data = req.body;
+  delete data.id;
 
   const agenteExistente = agentesRepository.findAgenteById(id);
   if (!agenteExistente) {
@@ -128,8 +136,10 @@ function patchAgente(req, res) {
     });
   }
 
-  const agenteAtualizado = { ...agenteExistente, ...data };
-  agentesRepository.updateAgente(id, agenteAtualizado);
+  const agenteAtualizado = agentesRepository.updateAgente(id, {
+    ...agenteExistente,
+    ...data
+  });
 
   return res.status(200).json(agenteAtualizado);
 }
